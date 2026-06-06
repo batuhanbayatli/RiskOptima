@@ -33,7 +33,7 @@ RiskOptima, SEGEM ve teknik sigortacılık dinamiklerini arkasına alarak her ha
 
 ---
 
-## 🛠️ Teknoloji Yığını (Tech Stack)
+## 🛠️ Tech Stack
 
 Projenin en büyük gücü **hafifliği, şeffaflığı ve taşınabilirliğidir**. Hiçbir ağır framework veya `node_modules` bağımlılığı olmadan, saf performans odaklı inşa edilmiştir:
 
