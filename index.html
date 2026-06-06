@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RiskOptima // InsurTech Claims & Fraud Analytics Panel</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --primary-color: #0f172a; 
+            --accent-color: #0284c7;
+            
+            --color-safe: #10b981;
+            --color-warning: #f59e0b;
+            --color-danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 4rem;
+        }
+
+        .container {
+            width: 94%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Kurumsal Header */
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 4px solid var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        header h1 span {
+            color: var(--accent-color);
+        }
+
+        header p {
+            font-size: 0.95rem;
+            color: #94a3b8;
+        }
+
+        .system-badge {
+            background: rgba(2, 132, 199, 0.2);
+            border: 1px solid var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #38bdf8;
+        }
+
+        /* KPI Metrik Kartları */
+        .kpi-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-color);
+        }
+
+        .kpi-card.danger::before { background: var(--color-danger); }
+        .kpi-card.success::before { background: var(--color-safe); }
+
+        .kpi-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+            color: var(--text-main);
+        }
+
+        .kpi-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Dashboard Düzeni */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 2.2fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-layout { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        /* Form Detayları */
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+        }
+        .btn-submit:hover { background-color: #1e293b; }
+
+        /* Canlı CSS Grafik Alanı */
+        .analytics-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .chart-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+        }
+        .custom-bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .chart-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+        .chart-label { width: 80px; font-weight: 500; }
+        .chart-bar-wrapper { flex-grow: 1; background: #e2e8f0; height: 12px; border-radius: 6px; overflow: hidden; }
+        .chart-bar { height: 100%; width: 0%; transition: width 0.5s ease-out; }
+        .bar-safe { background: var(--color-safe); }
+        .bar-warning { background: var(--color-warning); }
+        .bar-danger { background: var(--color-danger); }
+
+        /* Profesyonel Dijital İmza Kartı (Yeni Eklenen Alan) */
+        .signature-card {
+            background: linear-gradient(to bottom, #ffffff, #f8fafc);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+        }
+        .profile-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .signature-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .signature-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+        }
+        .signature-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0.1rem;
+        }
+        .linkedin-btn {
+            background-color: #0077b5;
+            color: white;
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: background 0.2s;
+            align-self: center;
+        }
+        .linkedin-btn:hover {
+            background-color: #005582;
+        }
+
+        /* Tablo ve Detay Yapısı */
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+        th, td { padding: 1rem; border-bottom: 1px solid var(--border-color); }
+        th { background-color: #f8fafc; color: var(--text-muted); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.5px; text-transform: uppercase; }
+        
+        .badge { padding: 0.35rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; }
+        .badge-safe { background-color: #ecfdf5; color: var(--color-safe); }
+        .badge-warning { background-color: #fffbeb; color: var(--color-warning); }
+        .badge-danger { background-color: #fef2f2; color: var(--color-danger); }
+
+        /* Risk Gerekçe Logları */
+        .flag-list {
+            font-size: 0.75rem;
+            color: var(--color-danger);
+            list-style: none;
+            margin-top: 0.25rem;
+        }
+        .flag-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .amount-text { font-family: 'Courier New', Courier, monospace; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-flex">
+            <div>
+                <h1>Risk<span>Optima</span> Analytics</h1>
+                <p>InsurTech Lab // Real-Time Automated Fraud Scoring & Claims Management Infrastructure</p>
+            </div>
+            <div class="system-badge">🛡️ Risk Engine Core v2.4 Active</div>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- ÜST KPI PANELİ -->
+        <div class="kpi-container">
+            <div class="kpi-card">
+                <span class="kpi-title">Toplam İşlenen Dosya</span>
+                <span class="kpi-value" id="kpiTotal">0</span>
+                <span class="kpi-sub">Anlık akan veri havuzu</span>
+            </div>
+            <div class="kpi-card danger">
+                <span class="kpi-title">Bloke Edilen / Şüpheli Tutar</span>
+                <span class="kpi-value" id="kpiFraudWallet">0 ₺</span>
+                <span class="kpi-sub">Eksper incelemesindeki risk hacmi</span>
+            </div>
+            <div class="kpi-card success">
+                <span class="kpi-title">Jet Onay Ödeme Hacmi</span>
+                <span class="kpi-value" id="kpiApprovedWallet">0 ₺</span>
+                <span class="kpi-sub">Doğrudan hesaba aktarılan prim</span>
+            </div>
+        </div>
+
+        <div class="grid-layout">
+            
+            <!-- SOL PANEL: INPUT, GRAFİK VE İMZA -->
+            <div class="left-column">
+                <div class="card">
+                    <h2>📝 Hasar Giriş Simülatörü</h2>
+                    <form id="claimForm">
+                        <div class="form-group">
+                            <label>Sigortalı Adı Soyadı</label>
+                            <input type="text" id="customerName" required placeholder="Örn: Ahmet Yılmaz">
+                        </div>
+                        <div class="form-group">
+                            <label>Poliçe Yaşı (Gün)</label>
+                            <input type="number" id="policyAge" required min="1" placeholder="Poliçe kaç günlük?">
+                        </div>
+                        <div class="form-group">
+                            <label>Hasar Talep Tutarı (₺)</label>
+                            <input type="number" id="claimAmount" required min="0" placeholder="Talep edilen tazminat">
+                        </div>
+                        <div class="form-group">
+                            <label>Hasar Saati</label>
+                            <input type="time" id="claimTime" required value="12:00">
+                        </div>
+                        <div class="form-group">
+                            <label>Son 3 Yıldaki Hasar Sayısı</label>
+                            <input type="number" id="pastClaims" required min="0" value="0">
+                        </div>
+                        <button type="submit" class="btn-submit">Risk Analizini Başlat</button>
+                    </form>
+                </div>
+
+                <!-- CANLI CSS GRAFİK KARTI -->
+                <div class="card">
+                    <div class="chart-title">📊 Canlı Portföy Risk Dağılımı</div>
+                    <div class="custom-bar-chart">
+                        <div class="chart-row">
+                            <span class="chart-label" style="color: var(--color-safe);">Jet Onay</span>
+                            <div class="chart-bar-wrapper"><div id="barSafe" class="chart-bar bar-safe"></div></div>
+                            <span id="txtSafeCount">0</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label" style="color: var(--color-warning);">İnceleme</span>
+                            <div class="chart-bar-wrapper"><div id="barWarning" class="chart-bar bar-warning"></div></div>
+                            <span id="txtWarningCount">0</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label" style="color: var(--color-danger);">Şüpheli</span>
+                            <div class="chart-bar-wrapper"><div id="barDanger" class="chart-bar bar-danger"></div></div>
+                            <span id="txtDangerCount">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DIJITAL GELIŞTİRİCİ İMZASI (Göz Boyama & Portföy Kartı) -->
+                <div class="signature-card">
+                    <img src="https://media.licdn.com/dms/image/v2/D4D03AQF6rb-yVzkhQw/profile-displayphoto-scale_400_400/B4DZ5t.E5XJUAg-/0/1779961450316?e=1782345600&v=beta&t=VSm-keZSZGlhkQOEBokpF-bc0YXAn7aeGb8ZuCgr-D0" alt="Batuhan Bayatlı" class="profile-img">
+                    <div class="signature-info">
+                        <span class="signature-name">Batuhan Bayatlı</span>
+                        <span class="signature-title">InsurTech Developer</span>
+                    </div>
+                    <a href="https://www.linkedin.com/in/batuhanbayatlı/" target="_blank" class="linkedin-btn">
+                        <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <!-- SAĞ PANEL: DETAYLI TABLO VE LOGLAR -->
+            <div class="card">
+                <h2>🔍 Aktif Hasar Analiz Kuyruğu (Real-Time)</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dosya ID</th>
+                                <th>Sigortalı Bilgisi</th>
+                                <th>Mali Tutar</th>
+                                <th>Risk İndeksi</th>
+                                <th>Karar Mekanizması</th>
+                            </tr>
+                        </thead>
+                        <tbody id="claimsTableBody">
+                            <!-- JS dinamik veri akışı -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Başlangıç veri seti
+        let claimsDatabase = [
+            { id: "CLM-912", name: "Asım Yılmaz", amount: 125000, score: 85, status: "Şüpheli - Eksper Atandı", flags: ["Poliçe ilk 30 günde hasar gördü (+35)", "Mali kritik eşik aşıldı (+20)", "Gece yarısı şüpheli hasar (+20)"] },
+            { id: "CLM-415", name: "Elif Demirtaş", amount: 32000, score: 45, status: "İncelemede / Belge Bekleniyor", flags: ["Geçmiş hasar kaydı mevcut (+10)", "Gece yarısı şüpheli hasar (+20)"] },
+            { id: "CLM-108", name: "Kaan Tekin", amount: 8500, score: 0, status: "Jet Onay - Ödeme Sırasında", flags: [] }
+        ];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateDashboard();
+
+            const form = document.getElementById("claimForm");
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById("customerName").value;
+                const policyAge = parseInt(document.getElementById("policyAge").value, 10);
+                const amount = parseInt(document.getElementById("claimAmount").value, 10);
+                const time = document.getElementById("claimTime").value;
+                const pastClaims = parseInt(document.getElementById("pastClaims").value, 10);
+
+                // Gelişmiş Risk Analiz Motoru
+                let score = 0;
+                let flags = [];
+
+                if (policyAge < 30) { score += 35; flags.push("Poliçe ilk 30 günde hasar gördü (+35)"); }
+                else if (policyAge <= 90) { score += 15; flags.push("Poliçe ilk 90 günde hasar gördü (+15)"); }
+
+                const hour = parseInt(time.split(":")[0], 10);
+                if (hour >= 0 && hour <= 5) { score += 20; flags.push("Gece yarısı şüpheli hasar (+20)"); }
+
+                if (pastClaims > 2) { score += 25; flags.push("Yüksek frekanslı hasar geçmişi (+25)"); }
+                else if (pastClaims > 0) { score += 10; flags.push("Geçmiş hasar kaydı mevcut (+10)"); }
+                else { score -= 10; } 
+
+                if (amount > 50000) { score += 20; flags.push("Mali kritik eşik aşıldı (+20)"); }
+
+                const finalScore = Math.max(0, Math.min(100, score));
+
+                let status = "Jet Onay - Ödeme Sırasında";
+                if (finalScore >= 70) status = "Şüpheli - Eksper Atandı";
+                else if (finalScore >= 35) status = "İncelemede / Belge Bekleniyor";
+
+                const newClaim = {
+                    id: "CLM-" + Math.floor(100 + Math.random() * 900),
+                    name: name,
+                    amount: amount,
+                    score: finalScore,
+                    status: status,
+                    flags: flags
+                };
+
+                claimsDatabase.unshift(newClaim);
+                updateDashboard();
+                form.reset();
+                document.getElementById("claimTime").value = "12:00";
+            });
+        });
+
+        function updateDashboard() {
+            renderTable();
+            calculateKPIs();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById("claimsTableBody");
+            tbody.innerHTML = "";
+
+            claimsDatabase.forEach(claim => {
+                let badgeClass = "badge-safe";
+                if (claim.score >= 70) badgeClass = "badge-danger";
+                else if (claim.score >= 35) badgeClass = "badge-warning";
+
+                let flagsHtml = "";
+                if (claim.flags && claim.flags.length > 0) {
+                    flagsHtml = `<ul class="flag-list">` + claim.flags.map(f => `<li>⚠️ ${f}</li>`).join('') + `</ul>`;
+                }
+
+                const row = `
+                    <tr>
+                        <td><strong>${claim.id}</strong></td>
+                        <td>
+                            <div><strong>${claim.name}</strong></div>
+                            ${flagsHtml}
+                        </td>
+                        <td class="amount-text">${claim.amount.toLocaleString('tr-TR')} ₺</td>
+                        <td><span class="badge ${badgeClass}">%${claim.score}</span></td>
+                        <td style="font-weight: 600;">${claim.status}</td>
+                    </tr>
+                `;
+                tbody.insertAdjacentHTML("beforeend", row);
+            });
+        }
+
+        function calculateKPIs() {
+            let total = claimsDatabase.length;
+            let fraudWallet = 0;
+            let approvedWallet = 0;
+
+            let safeCount = 0;
+            let warningCount = 0;
+            let dangerCount = 0;
+
+            claimsDatabase.forEach(claim => {
+                if (claim.score >= 70) {
+                    fraudWallet += claim.amount;
+                    dangerCount++;
+                } else if (claim.score >= 35) {
+                    warningCount++;
+                } else {
+                    approvedWallet += claim.amount;
+                    safeCount++;
+                }
+            });
+
+            document.getElementById("kpiTotal").innerText = total;
+            document.getElementById("kpiFraudWallet").innerText = fraudWallet.toLocaleString('tr-TR') + " ₺";
+            document.getElementById("kpiApprovedWallet").innerText = approvedWallet.toLocaleString('tr-TR') + " ₺";
+
+            document.getElementById("txtSafeCount").innerText = safeCount;
+            document.getElementById("txtWarningCount").innerText = warningCount;
+            document.getElementById("txtDangerCount").innerText = dangerCount;
+
+            let safePct = total > 0 ? (safeCount / total) * 100 : 0;
+            let warningPct = total > 0 ? (warningCount / total) * 100 : 0;
+            let dangerPct = total > 0 ? (dangerCount / total) * 100 : 0;
+
+            document.getElementById("barSafe").style.width = safePct + "%";
+            document.getElementById("barWarning").style.width = warningPct + "%";
+            document.getElementById("barDanger").style.width = dangerPct + "%";
+        }
+    </script>
+</body>
+</html>
