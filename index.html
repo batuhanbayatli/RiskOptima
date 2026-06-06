@@ -39,7 +39,7 @@
             margin: 0 auto;
         }
 
-        /* Kurumsal Header */
+        
         header {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: white;
@@ -85,7 +85,7 @@
             color: #38bdf8;
         }
 
-        /* KPI Metrik Kartları */
+        
         .kpi-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -138,7 +138,7 @@
             color: var(--text-muted);
         }
 
-        /* Dashboard Düzeni */
+        
         .grid-layout {
             display: grid;
             grid-template-columns: 1fr 2.2fr;
@@ -174,7 +174,7 @@
             gap: 0.6rem;
         }
 
-        /* Form Detayları */
+        
         .form-group { margin-bottom: 1.25rem; }
         .form-group label {
             display: block;
@@ -212,7 +212,7 @@
         }
         .btn-submit:hover { background-color: #1e293b; }
 
-        /* Canlı CSS Grafik Alanı */
+        
         .analytics-box {
             background: #f8fafc;
             border: 1px solid var(--border-color);
@@ -245,7 +245,7 @@
         .bar-warning { background: var(--color-warning); }
         .bar-danger { background: var(--color-danger); }
 
-        /* Profesyonel Dijital İmza Kartı (Yeni Eklenen Alan) */
+        
         .signature-card {
             background: linear-gradient(to bottom, #ffffff, #f8fafc);
             border: 1px solid var(--border-color);
@@ -301,7 +301,7 @@
             background-color: #005582;
         }
 
-        /* Tablo ve Detay Yapısı */
+        
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
         th, td { padding: 1rem; border-bottom: 1px solid var(--border-color); }
         th { background-color: #f8fafc; color: var(--text-muted); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.5px; text-transform: uppercase; }
@@ -311,7 +311,7 @@
         .badge-warning { background-color: #fffbeb; color: var(--color-warning); }
         .badge-danger { background-color: #fef2f2; color: var(--color-danger); }
 
-        /* Risk Gerekçe Logları */
+        
         .flag-list {
             font-size: 0.75rem;
             color: var(--color-danger);
@@ -341,7 +341,7 @@
 
     <main class="container">
         
-        <!-- ÜST KPI PANELİ -->
+        
         <div class="kpi-container">
             <div class="kpi-card">
                 <span class="kpi-title">Toplam İşlenen Dosya</span>
@@ -362,7 +362,7 @@
 
         <div class="grid-layout">
             
-            <!-- SOL PANEL: INPUT, GRAFİK VE İMZA -->
+            
             <div class="left-column">
                 <div class="card">
                     <h2>📝 Hasar Giriş Simülatörü</h2>
@@ -391,7 +391,7 @@
                     </form>
                 </div>
 
-                <!-- CANLI CSS GRAFİK KARTI -->
+               
                 <div class="card">
                     <div class="chart-title">📊 Canlı Portföy Risk Dağılımı</div>
                     <div class="custom-bar-chart">
@@ -427,7 +427,7 @@
                 </div>
             </div>
 
-            <!-- SAĞ PANEL: DETAYLI TABLO VE LOGLAR -->
+            
             <div class="card">
                 <h2>🔍 Aktif Hasar Analiz Kuyruğu (Real-Time)</h2>
                 <div class="table-responsive">
@@ -452,7 +452,7 @@
     </main>
 
     <script>
-        // Başlangıç veri seti
+        
         let claimsDatabase = [
             { id: "CLM-912", name: "Asım Yılmaz", amount: 125000, score: 85, status: "Şüpheli - Eksper Atandı", flags: ["Poliçe ilk 30 günde hasar gördü (+35)", "Mali kritik eşik aşıldı (+20)", "Gece yarısı şüpheli hasar (+20)"] },
             { id: "CLM-415", name: "Elif Demirtaş", amount: 32000, score: 45, status: "İncelemede / Belge Bekleniyor", flags: ["Geçmiş hasar kaydı mevcut (+10)", "Gece yarısı şüpheli hasar (+20)"] },
@@ -472,7 +472,7 @@
                 const time = document.getElementById("claimTime").value;
                 const pastClaims = parseInt(document.getElementById("pastClaims").value, 10);
 
-                // Gelişmiş Risk Analiz Motoru
+                
                 let score = 0;
                 let flags = [];
 
