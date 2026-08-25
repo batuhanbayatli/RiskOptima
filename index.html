@@ -3,584 +3,592 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RiskOptima // InsurTech Claims & Fraud Analytics Panel</title>
+    <title>RiskOptima Labs // InsurTech Claims & Actuarial Intelligence</title>
+   
+    <script src="https://cdn.tailwindcss.com"></script>
+   
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        surface: {
+                            base: '#f8fafc',
+                            card: '#ffffff',
+                            border: '#e2e8f0',
+                            hover: '#f1f5f9',
+                            muted: '#64748b',
+                            dark: '#0f172a'
+                        },
+                        brand: {
+                            primary: '#0f172a',
+                            cyan: '#0284c7',
+                            lightCyan: '#e0f2fe',
+                            emerald: '#10b981',
+                            amber: '#f59e0b',
+                            rose: '#ef4444'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --primary-color: #0f172a; 
-            --accent-color: #0284c7;
-            
-            --color-safe: #10b981;
-            --color-warning: #f59e0b;
-            --color-danger: #ef4444;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.5;
-            padding-bottom: 4rem;
-        }
-
-        .container {
-            width: 94%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        
-        header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            border-bottom: 4px solid var(--accent-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .header-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        header h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        header h1 span {
-            color: var(--accent-color);
-        }
-
-        header p {
-            font-size: 0.95rem;
-            color: #94a3b8;
-        }
-
-        .system-badge {
-            background: rgba(2, 132, 199, 0.2);
-            border: 1px solid var(--accent-color);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #38bdf8;
-        }
-
-        
-        .kpi-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .kpi-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .kpi-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--accent-color);
-        }
-
-        .kpi-card.danger::before { background: var(--color-danger); }
-        .kpi-card.success::before { background: var(--color-safe); }
-
-        .kpi-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .kpi-value {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin: 0.5rem 0;
-            color: var(--text-main);
-        }
-
-        .kpi-sub {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 2.2fr;
-            gap: 2rem;
-        }
-
-        @media (max-width: 1024px) {
-            .grid-layout { grid-template-columns: 1fr; }
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .left-column {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #f1f5f9;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        
-        .form-group { margin-bottom: 1.25rem; }
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-muted);
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-        .form-group input:focus, .form-group select:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
-        }
-
-        .btn-submit {
-            width: 100%;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 0.5rem;
-        }
-        .btn-submit:hover { background-color: #1e293b; }
-
-        
-        .analytics-box {
-            background: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .chart-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 0.75rem;
-            text-transform: uppercase;
-        }
-        .custom-bar-chart {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .chart-row {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: 0.85rem;
-        }
-        .chart-label { width: 80px; font-weight: 500; }
-        .chart-bar-wrapper { flex-grow: 1; background: #e2e8f0; height: 12px; border-radius: 6px; overflow: hidden; }
-        .chart-bar { height: 100%; width: 0%; transition: width 0.5s ease-out; }
-        .bar-safe { background: var(--color-safe); }
-        .bar-warning { background: var(--color-warning); }
-        .bar-danger { background: var(--color-danger); }
-
-        
-        .signature-card {
-            background: linear-gradient(to bottom, #ffffff, #f8fafc);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            position: relative;
-        }
-        .profile-img {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--border-color);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .signature-info {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-        .signature-name {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: -0.3px;
-        }
-        .signature-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 0.1rem;
-        }
-        .linkedin-btn {
-            background-color: #0077b5;
-            color: white;
-            text-decoration: none;
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            transition: background 0.2s;
-            align-self: center;
-        }
-        .linkedin-btn:hover {
-            background-color: #005582;
-        }
-
-        
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
-        th, td { padding: 1rem; border-bottom: 1px solid var(--border-color); }
-        th { background-color: #f8fafc; color: var(--text-muted); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.5px; text-transform: uppercase; }
-        
-        .badge { padding: 0.35rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; }
-        .badge-safe { background-color: #ecfdf5; color: var(--color-safe); }
-        .badge-warning { background-color: #fffbeb; color: var(--color-warning); }
-        .badge-danger { background-color: #fef2f2; color: var(--color-danger); }
-
-        
-        .flag-list {
-            font-size: 0.75rem;
-            color: var(--color-danger);
-            list-style: none;
-            margin-top: 0.25rem;
-        }
-        .flag-list li {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .amount-text { font-family: 'Courier New', Courier, monospace; font-weight: 700; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
     </style>
 </head>
-<body>
+<body class="bg-surface-base text-surface-dark min-h-screen flex flex-col antialiased selection:bg-brand-cyan selection:text-white">
 
-    <header>
-        <div class="container header-flex">
-            <div>
-                <h1>Risk<span>Optima</span> Analytics</h1>
-                <p>InsurTech Lab // Real-Time Automated Fraud Scoring & Claims Management Infrastructure</p>
+    
+    <header class="border-b border-surface-border bg-surface-card sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-surface-dark flex items-center justify-center text-white shadow-md shadow-slate-900/10">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-sky-400"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-extrabold text-lg tracking-tight text-surface-dark">RiskOptima <span class="text-brand-cyan">Labs</span></span>
+                        <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-sky-50 text-brand-cyan border border-sky-200">bGroup Ecosystem</span>
+                    </div>
+                    <p class="text-[11px] text-surface-muted font-medium">Geleceğin Riskini Bugünün Verisiyle Yönetin</p>
+                </div>
             </div>
-            <div class="system-badge">🛡️ Risk Engine Core v2.4 Active</div>
+
+            
+            <nav class="hidden md:flex items-center gap-1 bg-surface-base p-1 rounded-xl border border-surface-border">
+                <button onclick="switchTab('claims')" id="tab-claims" class="tab-btn px-4 py-1.5 rounded-lg text-xs font-bold bg-surface-card text-surface-dark shadow-sm border border-surface-border transition flex items-center gap-2">
+                    <i data-lucide="activity" class="w-3.5 h-3.5 text-brand-cyan"></i> Canlı Hasar Masası
+                </button>
+                <button onclick="switchTab('actuarial')" id="tab-actuarial" class="tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold text-surface-muted hover:text-surface-dark transition flex items-center gap-2">
+                    <i data-lucide="pie-chart" class="w-3.5 h-3.5"></i> Aktüerya & BI Metrikleri
+                </button>
+            </nav>
+
+            
+            <div class="flex items-center gap-3">
+                <button id="streamToggleBtn" onclick="toggleDataStream()" class="px-3.5 py-1.5 rounded-lg border border-sky-200 bg-sky-50 hover:bg-sky-100 text-brand-cyan text-xs font-bold flex items-center gap-2 transition">
+                    <span class="w-2 h-2 rounded-full bg-brand-cyan animate-pulse"></span>
+                    <span id="streamBtnText">Canlı Akışı Başlat</span>
+                </button>
+                <a href="https://www.linkedin.com/in/batuhanbayatlı/" target="_blank" class="flex items-center gap-2.5 pl-3 border-l border-surface-border hover:opacity-85 transition">
+                    <img src="https://avatars.githubusercontent.com/u/255363609?v=4" class="w-9 h-9 rounded-full border border-surface-border shadow-sm object-cover" alt="Batuhan Bayatlı">
+                    <div class="hidden lg:block text-left">
+                        <div class="text-xs font-extrabold text-surface-dark leading-tight">Batuhan Bayatlı</div>
+                        <div class="text-[10px] text-brand-cyan font-semibold leading-tight">InsurTech & FinTech Specialist</div>
+                    </div>
+                </a>
+            </div>
         </div>
     </header>
 
-    <main class="container">
+    
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
         
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-surface-card p-5 rounded-2xl border border-surface-border shadow-sm relative overflow-hidden">
+                <div class="text-[11px] font-bold uppercase tracking-wider text-surface-muted">İşlenen Toplam Dosya</div>
+                <div class="text-2xl font-black font-mono mt-1 text-surface-dark" id="statTotalClaims">0</div>
+                <div class="text-[11px] text-surface-muted mt-1 flex items-center gap-1">
+                    <i data-lucide="database" class="w-3.5 h-3.5 text-brand-cyan"></i> Anlık veri havuzu
+                </div>
+            </div>
+
+            <div class="bg-surface-card p-5 rounded-2xl border border-surface-border shadow-sm relative overflow-hidden">
+                <div class="text-[11px] font-bold uppercase tracking-wider text-brand-rose">Bloke Edilen Sahtecilik (Fraud)</div>
+                <div class="text-2xl font-black font-mono mt-1 text-brand-rose" id="statBlockedWallet">0 ₺</div>
+                <div class="text-[11px] text-surface-muted mt-1 flex items-center gap-1">
+                    <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-brand-rose"></i> Kurtarılan şirket nakdi
+                </div>
+            </div>
+
+            <div class="bg-surface-card p-5 rounded-2xl border border-surface-border shadow-sm relative overflow-hidden">
+                <div class="text-[11px] font-bold uppercase tracking-wider text-brand-emerald">Jet Onaylanan Ödemeler</div>
+                <div class="text-2xl font-black font-mono mt-1 text-brand-emerald" id="statApprovedWallet">0 ₺</div>
+                <div class="text-[11px] text-surface-muted mt-1 flex items-center gap-1">
+                    <i data-lucide="zap" class="w-3.5 h-3.5 text-brand-emerald"></i> Otomatik mutabakat
+                </div>
+            </div>
+
+            <div class="bg-surface-card p-5 rounded-2xl border border-surface-border shadow-sm relative overflow-hidden">
+                <div class="text-[11px] font-bold uppercase tracking-wider text-brand-cyan">Loss Ratio (Hasar/Prim)</div>
+                <div class="text-2xl font-black font-mono mt-1 text-brand-cyan" id="statLossRatio">%62.4</div>
+                <div class="text-[11px] text-surface-muted mt-1 flex items-center gap-1">
+                    <i data-lucide="trending-up" class="w-3.5 h-3.5 text-brand-cyan"></i> Portföy hedef aralığında
+                </div>
+            </div>
+        </section>
+
         
-        <div class="kpi-container">
-            <div class="kpi-card">
-                <span class="kpi-title">Toplam İşlenen Dosya</span>
-                <span class="kpi-value" id="kpiTotal">0</span>
-                <span class="kpi-sub">Anlık akan veri havuzu</span>
-            </div>
-            <div class="kpi-card danger">
-                <span class="kpi-title">Bloke Edilen / Şüpheli Tutar</span>
-                <span class="kpi-value" id="kpiFraudWallet">0 ₺</span>
-                <span class="kpi-sub">Eksper incelemesindeki risk hacmi</span>
-            </div>
-            <div class="kpi-card success">
-                <span class="kpi-title">Jet Onay Ödeme Hacmi</span>
-                <span class="kpi-value" id="kpiApprovedWallet">0 ₺</span>
-                <span class="kpi-sub">Doğrudan hesaba aktarılan prim</span>
-            </div>
-        </div>
-
-        <div class="grid-layout">
-            
-            
-            <div class="left-column">
-                <div class="card">
-                    <h2>📝 Hasar Giriş Simülatörü</h2>
-                    <form id="claimForm">
-                        <div class="form-group">
-                            <label>Sigortalı Adı Soyadı</label>
-                            <input type="text" id="customerName" required placeholder="Örn: Ahmet Yılmaz">
-                        </div>
-                        <div class="form-group">
-                            <label>Poliçe Yaşı (Gün)</label>
-                            <input type="number" id="policyAge" required min="1" placeholder="Poliçe kaç günlük?">
-                        </div>
-                        <div class="form-group">
-                            <label>Hasar Talep Tutarı (₺)</label>
-                            <input type="number" id="claimAmount" required min="0" placeholder="Talep edilen tazminat">
-                        </div>
-                        <div class="form-group">
-                            <label>Hasar Saati</label>
-                            <input type="time" id="claimTime" required value="12:00">
-                        </div>
-                        <div class="form-group">
-                            <label>Son 3 Yıldaki Hasar Sayısı</label>
-                            <input type="number" id="pastClaims" required min="0" value="0">
-                        </div>
-                        <button type="submit" class="btn-submit">Risk Analizini Başlat</button>
-                    </form>
-                </div>
-
-               
-                <div class="card">
-                    <div class="chart-title">📊 Canlı Portföy Risk Dağılımı</div>
-                    <div class="custom-bar-chart">
-                        <div class="chart-row">
-                            <span class="chart-label" style="color: var(--color-safe);">Jet Onay</span>
-                            <div class="chart-bar-wrapper"><div id="barSafe" class="chart-bar bar-safe"></div></div>
-                            <span id="txtSafeCount">0</span>
-                        </div>
-                        <div class="chart-row">
-                            <span class="chart-label" style="color: var(--color-warning);">İnceleme</span>
-                            <div class="chart-bar-wrapper"><div id="barWarning" class="chart-bar bar-warning"></div></div>
-                            <span id="txtWarningCount">0</span>
-                        </div>
-                        <div class="chart-row">
-                            <span class="chart-label" style="color: var(--color-danger);">Şüpheli</span>
-                            <div class="chart-bar-wrapper"><div id="barDanger" class="chart-bar bar-danger"></div></div>
-                            <span id="txtDangerCount">0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DIJITAL GELIŞTİRİCİ İMZASI (Göz Boyama & Portföy Kartı) -->
-                <div class="signature-card">
-                    <img src="https://avatars.githubusercontent.com/u/255363609?v=4" alt="Batuhan Bayatlı" class="profile-img">
-                    <div class="signature-info">
-                        <span class="signature-name">Batuhan Bayatlı</span>
-                        <span class="signature-title">InsurTech Developer</span>
-                    </div>
-                    <a href="https://www.linkedin.com/in/batuhanbayatlı/" target="_blank" class="linkedin-btn">
-                        <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                        LinkedIn
-                    </a>
-                </div>
-            </div>
-
-            
-            <div class="card">
-                <h2>🔍 Aktif Hasar Analiz Kuyruğu (Real-Time)</h2>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Dosya ID</th>
-                                <th>Sigortalı Bilgisi</th>
-                                <th>Mali Tutar</th>
-                                <th>Risk İndeksi</th>
-                                <th>Karar Mekanizması</th>
-                            </tr>
-                        </thead>
-                        <tbody id="claimsTableBody">
-                            <!-- JS dinamik veri akışı -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <script>
-        
-        let claimsDatabase = [
-            { id: "CLM-912", name: "Asım Yılmaz", amount: 125000, score: 85, status: "Şüpheli - Eksper Atandı", flags: ["Poliçe ilk 30 günde hasar gördü (+35)", "Mali kritik eşik aşıldı (+20)", "Gece yarısı şüpheli hasar (+20)"] },
-            { id: "CLM-415", name: "Elif Demirtaş", amount: 32000, score: 45, status: "İncelemede / Belge Bekleniyor", flags: ["Geçmiş hasar kaydı mevcut (+10)", "Gece yarısı şüpheli hasar (+20)"] },
-            { id: "CLM-108", name: "Kaan Tekin", amount: 8500, score: 0, status: "Jet Onay - Ödeme Sırasında", flags: [] }
-        ];
-
-        document.addEventListener("DOMContentLoaded", () => {
-            updateDashboard();
-
-            const form = document.getElementById("claimForm");
-            form.addEventListener("submit", (e) => {
-                e.preventDefault();
-
-                const name = document.getElementById("customerName").value;
-                const policyAge = parseInt(document.getElementById("policyAge").value, 10);
-                const amount = parseInt(document.getElementById("claimAmount").value, 10);
-                const time = document.getElementById("claimTime").value;
-                const pastClaims = parseInt(document.getElementById("pastClaims").value, 10);
+        <section id="view-claims" class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                 
-                let score = 0;
-                let flags = [];
+                <div class="bg-surface-card p-5 rounded-2xl border border-surface-border shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between pb-3 border-b border-surface-border mb-4">
+                            <h2 class="font-bold text-sm text-surface-dark flex items-center gap-2">
+                                <i data-lucide="sliders" class="w-4 h-4 text-brand-cyan"></i> Hasar Giriş Simülatörü
+                            </h2>
+                            <button onclick="fillMockForm()" class="text-[11px] font-semibold text-brand-cyan hover:underline">🎲 Rastgele Doldur</button>
+                        </div>
+                        <form id="newClaimForm" class="space-y-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-surface-muted mb-1">Sigortalı Adı Soyadı</label>
+                                <input type="text" id="inpName" required class="w-full px-3 py-2 bg-surface-base border border-surface-border rounded-xl text-xs font-semibold focus:border-brand-cyan focus:bg-white focus:outline-none transition" placeholder="Örn: Deniz Kaya">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-surface-muted mb-1">Poliçe Yaşı (Gün)</label>
+                                    <input type="number" id="inpAge" required min="1" class="w-full px-3 py-2 bg-surface-base border border-surface-border rounded-xl text-xs font-semibold focus:border-brand-cyan focus:bg-white focus:outline-none transition" placeholder="Gün">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-surface-muted mb-1">Talep Tutarı (₺)</label>
+                                    <input type="number" id="inpAmount" required min="100" class="w-full px-3 py-2 bg-surface-base border border-surface-border rounded-xl text-xs font-semibold focus:border-brand-cyan focus:bg-white focus:outline-none transition" placeholder="₺">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-surface-muted mb-1">Hasar Saati</label>
+                                    <input type="time" id="inpTime" value="14:30" required class="w-full px-3 py-2 bg-surface-base border border-surface-border rounded-xl text-xs font-semibold focus:border-brand-cyan focus:bg-white focus:outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-surface-muted mb-1">Son 3 Yıldaki Hasar</label>
+                                    <input type="number" id="inpPast" value="0" min="0" required class="w-full px-3 py-2 bg-surface-base border border-surface-border rounded-xl text-xs font-semibold focus:border-brand-cyan focus:bg-white focus:outline-none transition">
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full py-2.5 bg-surface-dark hover:bg-slate-800 text-white font-bold rounded-xl text-xs tracking-wide shadow-md shadow-slate-900/10 transition mt-2">
+                                Risk Motorunu Çalıştır
+                            </button>
+                        </form>
+                    </div>
 
-                if (policyAge < 30) { score += 35; flags.push("Poliçe ilk 30 günde hasar gördü (+35)"); }
-                else if (policyAge <= 90) { score += 15; flags.push("Poliçe ilk 90 günde hasar gördü (+15)"); }
+                  
+                    <div class="mt-5 pt-4 border-t border-surface-border space-y-2">
+                        <div class="flex justify-between text-[11px] font-bold text-surface-muted">
+                            <span>Portföy Sağlık Oranı</span>
+                            <span id="riskRatioText">%0 Güvenli / %0 Şüpheli</span>
+                        </div>
+                        <div class="h-2.5 w-full bg-surface-base rounded-full overflow-hidden flex border border-surface-border">
+                            <div id="barSafe" class="bg-brand-emerald h-full transition-all duration-500" style="width: 50%;"></div>
+                            <div id="barWarn" class="bg-brand-amber h-full transition-all duration-500" style="width: 25%;"></div>
+                            <div id="barDanger" class="bg-brand-rose h-full transition-all duration-500" style="width: 25%;"></div>
+                        </div>
+                    </div>
+                </div>
 
-                const hour = parseInt(time.split(":")[0], 10);
-                if (hour >= 0 && hour <= 5) { score += 20; flags.push("Gece yarısı şüpheli hasar (+20)"); }
+                
+                <div class="lg:col-span-2 bg-surface-card p-5 rounded-2xl border border-surface-border shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-surface-border mb-4">
+                            <div class="flex items-center gap-2">
+                                <h2 class="font-bold text-sm text-surface-dark">Aktif Hasar Analiz Kuyruğu</h2>
+                                <span class="w-2 h-2 rounded-full bg-brand-emerald animate-ping"></span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="filterClaims('all')" id="flt-all" class="filter-pill px-3 py-1 text-[11px] font-bold rounded-lg bg-surface-dark text-white shadow-sm">Tümü</button>
+                                <button onclick="filterClaims('safe')" id="flt-safe" class="filter-pill px-3 py-1 text-[11px] font-semibold rounded-lg bg-surface-base text-surface-muted hover:text-surface-dark">Jet Onay</button>
+                                <button onclick="filterClaims('danger')" id="flt-danger" class="filter-pill px-3 py-1 text-[11px] font-semibold rounded-lg bg-surface-base text-surface-muted hover:text-surface-dark">Şüpheli</button>
+                                <button onclick="clearAllData()" class="text-[11px] font-semibold text-surface-muted hover:text-brand-rose pl-2">Sıfırla</button>
+                            </div>
+                        </div>
 
-                if (pastClaims > 2) { score += 25; flags.push("Yüksek frekanslı hasar geçmişi (+25)"); }
-                else if (pastClaims > 0) { score += 10; flags.push("Geçmiş hasar kaydı mevcut (+10)"); }
-                else { score -= 10; } 
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead class="bg-surface-base text-surface-muted uppercase font-bold text-[10px] tracking-wider border-y border-surface-border">
+                                    <tr>
+                                        <th class="p-3">Dosya ID</th>
+                                        <th class="p-3">Sigortalı</th>
+                                        <th class="p-3">Mali Tutar</th>
+                                        <th class="p-3">Risk İndeksi</th>
+                                        <th class="p-3">Karar</th>
+                                        <th class="p-3 text-right">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="claimsTbody" class="divide-y divide-surface-border font-medium">
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-                if (amount > 50000) { score += 20; flags.push("Mali kritik eşik aşıldı (+20)"); }
+                   
+                    <div class="flex items-center justify-between pt-4 mt-2 border-t border-surface-border text-xs text-surface-muted">
+                        <div id="pageInfo" class="font-medium">1-10 arası gösteriliyor (Toplam 0)</div>
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="changePage(-1)" id="btnPrev" class="px-3 py-1.5 rounded-lg border border-surface-border bg-surface-base hover:bg-surface-hover font-bold disabled:opacity-40 disabled:cursor-not-allowed transition">
+                                Önceki
+                            </button>
+                            <span id="pageCurrent" class="px-3 py-1.5 rounded-lg bg-surface-dark text-white font-mono font-bold">1</span>
+                            <button onclick="changePage(1)" id="btnNext" class="px-3 py-1.5 rounded-lg border border-surface-border bg-surface-base hover:bg-surface-hover font-bold disabled:opacity-40 disabled:cursor-not-allowed transition">
+                                Sonraki
+                            </button>
+                        </div>
+                    </div>
 
-                const finalScore = Math.max(0, Math.min(100, score));
+                </div>
 
-                let status = "Jet Onay - Ödeme Sırasında";
-                if (finalScore >= 70) status = "Şüpheli - Eksper Atandı";
-                else if (finalScore >= 35) status = "İncelemede / Belge Bekleniyor";
+            </div>
+        </section>
 
-                const newClaim = {
-                    id: "CLM-" + Math.floor(100 + Math.random() * 900),
-                    name: name,
-                    amount: amount,
-                    score: finalScore,
-                    status: status,
-                    flags: flags
-                };
+        
+        <section id="view-actuarial" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-surface-card p-5 rounded-2xl border border-surface-border shadow-sm">
+                    <h3 class="text-sm font-bold mb-4 flex items-center gap-2 text-surface-dark">
+                        <i data-lucide="trending-up" class="w-4 h-4 text-brand-cyan"></i> Hasar Hacmi & Sahtecilik Trendi
+                    </h3>
+                    <div id="chart-trend"></div>
+                </div>
 
-                claimsDatabase.unshift(newClaim);
-                updateDashboard();
-                form.reset();
-                document.getElementById("claimTime").value = "12:00";
+                <div class="bg-surface-card p-5 rounded-2xl border border-surface-border shadow-sm">
+                    <h3 class="text-sm font-bold mb-4 flex items-center gap-2 text-surface-dark">
+                        <i data-lucide="clock" class="w-4 h-4 text-brand-amber"></i> Hasar Saati & Moral Risk Dağılımı
+                    </h3>
+                    <div id="chart-radar"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    
+    <footer class="mt-auto border-t border-surface-border bg-surface-card py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <img src="https://avatars.githubusercontent.com/u/255363609?v=4" alt="Batuhan Bayatlı" class="w-11 h-11 rounded-full border border-surface-border shadow-sm">
+                <div>
+                    <div class="text-xs font-bold text-surface-dark">Batuhan Bayatlı</div>
+                    <div class="text-[11px] text-surface-muted font-medium">InsurTech & FinTech Specialist | SEGEM | Japanese & English</div>
+                </div>
+            </div>
+            <div class="text-center md:text-right">
+                <div class="text-xs font-extrabold text-surface-dark">RiskOptima Labs</div>
+                <div class="text-[11px] text-surface-muted">bGroup bünyesinde geliştirilmiştir. Tüm hakları saklıdır.</div>
+            </div>
+        </div>
+    </footer>
+
+    
+    <div id="claimDetailModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-surface-card border border-surface-border max-w-md w-full rounded-2xl p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-surface-border">
+                <div class="flex items-center gap-2">
+                    <span class="text-base font-extrabold text-surface-dark font-mono" id="modalId">CLM-000</span>
+                    <span id="modalBadge" class="px-2.5 py-0.5 rounded-md text-[10px] font-bold">STATUS</span>
+                </div>
+                <button onclick="closeModal()" class="text-surface-muted hover:text-surface-dark"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="space-y-2.5 text-xs">
+                <div class="flex justify-between py-1 border-b border-surface-border">
+                    <span class="text-surface-muted font-medium">Sigortalı:</span>
+                    <span class="font-bold text-surface-dark" id="modalName">-</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-surface-border">
+                    <span class="text-surface-muted font-medium">Hasar Tutarı:</span>
+                    <span class="font-bold font-mono text-surface-dark" id="modalAmount">-</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-surface-border">
+                    <span class="text-surface-muted font-medium">Hesaplanan Risk İndeksi:</span>
+                    <span class="font-bold font-mono" id="modalScore">-%</span>
+                </div>
+                <div class="pt-2">
+                    <span class="block text-surface-muted font-bold mb-1.5">Tespit Edilen Kırmızı Bayraklar:</span>
+                    <ul id="modalFlags" class="space-y-1.5 bg-surface-base p-3 rounded-xl border border-surface-border text-brand-rose font-medium">
+                    </ul>
+                </div>
+            </div>
+            <button onclick="closeModal()" class="w-full py-2 bg-surface-dark hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition">Kapat</button>
+        </div>
+    </div>
+
+    
+    <script>
+        const DEFAULT_CLAIMS = [
+            { id: "CLM-884", name: "Murat Demir", amount: 145000, score: 85, status: "Şüpheli - Eksper Atandı", flags: ["Poliçe ilk 30 günde hasar gördü (+35)", "Mali limit aşıldı (+20)", "Gece yarısı şüpheli hasar (+20)"] },
+            { id: "CLM-712", name: "Selin Yıldırım", amount: 28000, score: 45, status: "İncelemede / Belge Bekleniyor", flags: ["Geçmiş hasar kaydı mevcut (+10)", "Gece yarısı kaza bildirimi (+20)"] },
+            { id: "CLM-309", name: "Emir Kurt", amount: 7400, score: 0, status: "Jet Onay - Ödeme Sırasında", flags: [] },
+            { id: "CLM-195", name: "Büşra Çelik", amount: 92000, score: 75, status: "Şüpheli - Eksper Atandı", flags: ["Poliçe ilk 30 günde hasar gördü (+35)", "Mali limit aşıldı (+20)"] },
+            { id: "CLM-552", name: "Hakan Yılmaz", amount: 15400, score: 10, status: "Jet Onay - Ödeme Sırasında", flags: [] },
+            { id: "CLM-441", name: "Cemil Taş", amount: 62000, score: 55, status: "İncelemede / Belge Bekleniyor", flags: ["Mali limit aşıldı (+20)", "Poliçe ilk 90 günde hasar (+15)"] },
+            { id: "CLM-228", name: "Gamze Aydın", amount: 4800, score: 0, status: "Jet Onay - Ödeme Sırasında", flags: [] },
+            { id: "CLM-993", name: "Oğuz Karaca", amount: 110000, score: 80, status: "Şüpheli - Eksper Atandı", flags: ["Yüksek frekanslı hasar (+25)", "Mali limit aşıldı (+20)"] },
+            { id: "CLM-317", name: "Zehra Doğan", amount: 19000, score: 15, status: "Jet Onay - Ödeme Sırasında", flags: [] },
+            { id: "CLM-614", name: "Tolga Acar", amount: 33000, score: 45, status: "İncelemede / Belge Bekleniyor", flags: ["Geçmiş hasar kaydı (+10)"] },
+            { id: "CLM-771", name: "Ece Erdem", amount: 8200, score: 0, status: "Jet Onay - Ödeme Sırasında", flags: [] }
+        ];
+
+        let claims = JSON.parse(localStorage.getItem("riskoptima_v3_data")) || DEFAULT_CLAIMS;
+        let activeFilter = 'all';
+        let currentPage = 1;
+        const pageSize = 10;
+        let streamInterval = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+            refreshUI();
+            initCharts();
+
+            document.getElementById("newClaimForm").addEventListener("submit", (e) => {
+                e.preventDefault();
+                processClaim(
+                    document.getElementById("inpName").value,
+                    parseInt(document.getElementById("inpAge").value, 10),
+                    parseInt(document.getElementById("inpAmount").value, 10),
+                    document.getElementById("inpTime").value,
+                    parseInt(document.getElementById("inpPast").value, 10)
+                );
+                e.target.reset();
+                document.getElementById("inpTime").value = "14:30";
             });
         });
 
-        function updateDashboard() {
+        function calculateRisk(policyAge, amount, time, pastClaims) {
+            let score = 0;
+            let flags = [];
+
+            if (policyAge < 30) { score += 35; flags.push("Poliçe ilk 30 günde hasar gördü (+35)"); }
+            else if (policyAge <= 90) { score += 15; flags.push("Poliçe ilk 90 günde hasar gördü (+15)"); }
+
+            const hour = parseInt(time.split(":")[0], 10);
+            if (hour >= 0 && hour <= 5) { score += 20; flags.push("Gece yarısı şüpheli hasar (+20)"); }
+
+            if (pastClaims > 2) { score += 25; flags.push("Yüksek frekanslı hasar geçmişi (+25)"); }
+            else if (pastClaims > 0) { score += 10; flags.push("Geçmiş hasar kaydı mevcut (+10)"); }
+            else { score -= 10; }
+
+            if (amount > 50000) { score += 20; flags.push("Mali kritik limit aşıldı (+20)"); }
+
+            const finalScore = Math.max(0, Math.min(100, score));
+
+            let status = "Jet Onay - Ödeme Sırasında";
+            if (finalScore >= 70) status = "Şüpheli - Eksper Atandı";
+            else if (finalScore >= 35) status = "İncelemede / Belge Bekleniyor";
+
+            return { finalScore, status, flags };
+        }
+
+        function processClaim(name, age, amount, time, past) {
+            const { finalScore, status, flags } = calculateRisk(age, amount, time, past);
+            const newClaim = {
+                id: "CLM-" + Math.floor(100 + Math.random() * 900),
+                name: name,
+                amount: amount,
+                score: finalScore,
+                status: status,
+                flags: flags
+            };
+            claims.unshift(newClaim);
+            saveAndRender();
+        }
+
+        function saveAndRender() {
+            localStorage.setItem("riskoptima_v3_data", JSON.stringify(claims));
+            refreshUI();
+        }
+
+        function refreshUI() {
             renderTable();
-            calculateKPIs();
+            renderStats();
+            lucide.createIcons();
         }
 
         function renderTable() {
-            const tbody = document.getElementById("claimsTableBody");
+            const tbody = document.getElementById("claimsTbody");
             tbody.innerHTML = "";
 
-            claimsDatabase.forEach(claim => {
-                let badgeClass = "badge-safe";
-                if (claim.score >= 70) badgeClass = "badge-danger";
-                else if (claim.score >= 35) badgeClass = "badge-warning";
-
-                let flagsHtml = "";
-                if (claim.flags && claim.flags.length > 0) {
-                    flagsHtml = `<ul class="flag-list">` + claim.flags.map(f => `<li>⚠️ ${f}</li>`).join('') + `</ul>`;
-                }
-
-                const row = `
-                    <tr>
-                        <td><strong>${claim.id}</strong></td>
-                        <td>
-                            <div><strong>${claim.name}</strong></div>
-                            ${flagsHtml}
-                        </td>
-                        <td class="amount-text">${claim.amount.toLocaleString('tr-TR')} ₺</td>
-                        <td><span class="badge ${badgeClass}">%${claim.score}</span></td>
-                        <td style="font-weight: 600;">${claim.status}</td>
-                    </tr>
-                `;
-                tbody.insertAdjacentHTML("beforeend", row);
+            let list = claims.filter(c => {
+                if (activeFilter === 'safe') return c.score < 35;
+                if (activeFilter === 'danger') return c.score >= 70;
+                return true;
             });
+
+            const totalItems = list.length;
+            const totalPages = Math.ceil(totalItems / pageSize) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIndex = (currentPage - 1) * pageSize;
+            const pageItems = list.slice(startIndex, startIndex + pageSize);
+
+            if (pageItems.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-surface-muted">Kayıt bulunamadı.</td></tr>`;
+            } else {
+                pageItems.forEach(c => {
+                    let badgeStyle = "bg-emerald-50 text-brand-emerald border-emerald-200";
+                    if (c.score >= 70) badgeStyle = "bg-rose-50 text-brand-rose border-rose-200";
+                    else if (c.score >= 35) badgeStyle = "bg-amber-50 text-brand-amber border-amber-200";
+
+                    const tr = document.createElement("tr");
+                    tr.className = "hover:bg-surface-base transition";
+                    tr.innerHTML = `
+                        <td class="p-3 font-mono font-bold text-brand-cyan">${c.id}</td>
+                        <td class="p-3 font-bold text-surface-dark">${c.name}</td>
+                        <td class="p-3 font-mono font-bold">${c.amount.toLocaleString('tr-TR')} ₺</td>
+                        <td class="p-3 font-mono font-extrabold">%${c.score}</td>
+                        <td class="p-3"><span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold border ${badgeStyle}">${c.status}</span></td>
+                        <td class="p-3 text-right">
+                            <button onclick="viewDetail('${c.id}')" class="px-2.5 py-1 rounded-lg bg-surface-base hover:bg-surface-dark hover:text-white border border-surface-border text-[11px] font-bold transition">İncele</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            
+            document.getElementById("pageInfo").innerText = `${totalItems === 0 ? 0 : startIndex + 1}-${Math.min(startIndex + pageSize, totalItems)} arası gösteriliyor (Toplam ${totalItems})`;
+            document.getElementById("pageCurrent").innerText = currentPage;
+            document.getElementById("btnPrev").disabled = (currentPage === 1);
+            document.getElementById("btnNext").disabled = (currentPage === totalPages || totalPages === 0);
         }
 
-        function calculateKPIs() {
-            let total = claimsDatabase.length;
-            let fraudWallet = 0;
-            let approvedWallet = 0;
+        function changePage(direction) {
+            currentPage += direction;
+            renderTable();
+        }
 
-            let safeCount = 0;
-            let warningCount = 0;
-            let dangerCount = 0;
+        function renderStats() {
+            let total = claims.length;
+            let blocked = 0;
+            let approved = 0;
+            let safe = 0, warn = 0, danger = 0;
 
-            claimsDatabase.forEach(claim => {
-                if (claim.score >= 70) {
-                    fraudWallet += claim.amount;
-                    dangerCount++;
-                } else if (claim.score >= 35) {
-                    warningCount++;
-                } else {
-                    approvedWallet += claim.amount;
-                    safeCount++;
-                }
+            claims.forEach(c => {
+                if (c.score >= 70) { blocked += c.amount; danger++; }
+                else if (c.score >= 35) { warn++; }
+                else { approved += c.amount; safe++; }
             });
 
-            document.getElementById("kpiTotal").innerText = total;
-            document.getElementById("kpiFraudWallet").innerText = fraudWallet.toLocaleString('tr-TR') + " ₺";
-            document.getElementById("kpiApprovedWallet").innerText = approvedWallet.toLocaleString('tr-TR') + " ₺";
+            document.getElementById("statTotalClaims").innerText = total;
+            document.getElementById("statBlockedWallet").innerText = blocked.toLocaleString('tr-TR') + " ₺";
+            document.getElementById("statApprovedWallet").innerText = approved.toLocaleString('tr-TR') + " ₺";
 
-            document.getElementById("txtSafeCount").innerText = safeCount;
-            document.getElementById("txtWarningCount").innerText = warningCount;
-            document.getElementById("txtDangerCount").innerText = dangerCount;
+            let sPct = total > 0 ? (safe / total) * 100 : 0;
+            let wPct = total > 0 ? (warn / total) * 100 : 0;
+            let dPct = total > 0 ? (danger / total) * 100 : 0;
 
-            let safePct = total > 0 ? (safeCount / total) * 100 : 0;
-            let warningPct = total > 0 ? (warningCount / total) * 100 : 0;
-            let dangerPct = total > 0 ? (dangerCount / total) * 100 : 0;
+            document.getElementById("barSafe").style.width = sPct + "%";
+            document.getElementById("barWarn").style.width = wPct + "%";
+            document.getElementById("barDanger").style.width = dPct + "%";
+            document.getElementById("riskRatioText").innerText = `%${Math.round(sPct)} Güvenli / %${Math.round(dPct)} Şüpheli`;
+        }
 
-            document.getElementById("barSafe").style.width = safePct + "%";
-            document.getElementById("barWarning").style.width = warningPct + "%";
-            document.getElementById("barDanger").style.width = dangerPct + "%";
+        function viewDetail(id) {
+            const item = claims.find(c => c.id === id);
+            if (!item) return;
+
+            document.getElementById("modalId").innerText = item.id;
+            document.getElementById("modalName").innerText = item.name;
+            document.getElementById("modalAmount").innerText = item.amount.toLocaleString('tr-TR') + " ₺";
+            document.getElementById("modalScore").innerText = "%" + item.score;
+
+            const badge = document.getElementById("modalBadge");
+            badge.innerText = item.status;
+            badge.className = `px-2.5 py-0.5 rounded-md text-[10px] font-bold border ${item.score >= 70 ? 'bg-rose-50 text-brand-rose border-rose-200' : 'bg-emerald-50 text-brand-emerald border-emerald-200'}`;
+
+            const flagsUl = document.getElementById("modalFlags");
+            flagsUl.innerHTML = "";
+            if (item.flags && item.flags.length > 0) {
+                item.flags.forEach(f => flagsUl.innerHTML += `<li>⚠️ ${f}</li>`);
+            } else {
+                flagsUl.innerHTML = `<li class="text-brand-emerald">✅ Temiz dosya profili. Hiçbir anomali bulunamadı.</li>`;
+            }
+
+            document.getElementById("claimDetailModal").classList.remove("hidden");
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            document.getElementById("claimDetailModal").classList.add("hidden");
+        }
+
+        function filterClaims(type) {
+            activeFilter = type;
+            currentPage = 1;
+            document.querySelectorAll(".filter-pill").forEach(p => p.className = "filter-pill px-3 py-1 text-[11px] font-semibold rounded-lg bg-surface-base text-surface-muted hover:text-surface-dark");
+            document.getElementById("flt-" + type).className = "filter-pill px-3 py-1 text-[11px] font-bold rounded-lg bg-surface-dark text-white shadow-sm";
+            renderTable();
+        }
+
+        function clearAllData() {
+            if (confirm("Veri havuzunu sıfırlamak istiyor musunuz?")) {
+                claims = [...DEFAULT_CLAIMS];
+                currentPage = 1;
+                saveAndRender();
+            }
+        }
+
+        function fillMockForm() {
+            const names = ["Cemre Altın", "Burak Tan", "Kürşat Genç", "Aylin Öz", "Mert Vardar"];
+            document.getElementById("inpName").value = names[Math.floor(Math.random() * names.length)];
+            document.getElementById("inpAge").value = Math.floor(Math.random() * 320) + 5;
+            document.getElementById("inpAmount").value = Math.floor(Math.random() * 140000) + 4000;
+            document.getElementById("inpPast").value = Math.floor(Math.random() * 4);
+        }
+
+        function toggleDataStream() {
+            const btnText = document.getElementById("streamBtnText");
+            if (streamInterval) {
+                clearInterval(streamInterval);
+                streamInterval = null;
+                btnText.innerText = "Canlı Akışı Başlat";
+            } else {
+                btnText.innerText = "Akışı Durdur";
+                streamInterval = setInterval(() => {
+                    const mockNames = ["Arda Koç", "Gamze Saygın", "Cihan Tek", "Zehra Bilge", "Barış Ertekin"];
+                    const randomName = mockNames[Math.floor(Math.random() * mockNames.length)];
+                    const randomAge = Math.floor(Math.random() * 300) + 10;
+                    const randomAmount = Math.floor(Math.random() * 110000) + 5000;
+                    const hours = String(Math.floor(Math.random() * 24)).padStart(2, '0');
+                    const randomTime = `${hours}:00`;
+                    const randomPast = Math.floor(Math.random() * 3);
+                    processClaim(randomName, randomAge, randomAmount, randomTime, randomPast);
+                }, 2500);
+            }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.className = 'tab-btn px-4 py-1.5 rounded-lg text-xs font-semibold text-surface-muted hover:text-surface-dark transition flex items-center gap-2';
+            });
+            if (tab === 'claims') {
+                document.getElementById('tab-claims').className = 'tab-btn px-4 py-1.5 rounded-lg text-xs font-bold bg-surface-card text-surface-dark shadow-sm border border-surface-border transition flex items-center gap-2';
+                document.getElementById('view-claims').classList.remove('hidden');
+                document.getElementById('view-actuarial').classList.add('hidden');
+            } else {
+                document.getElementById('tab-actuarial').className = 'tab-btn px-4 py-1.5 rounded-lg text-xs font-bold bg-surface-card text-surface-dark shadow-sm border border-surface-border transition flex items-center gap-2';
+                document.getElementById('view-claims').classList.add('hidden');
+                document.getElementById('view-actuarial').classList.remove('hidden');
+            }
+        }
+
+        function initCharts() {
+            const trendOptions = {
+                series: [
+                    { name: 'Onaylanan Hacim (₺)', data: [45000, 62000, 80000, 95000, 110000, 142000] },
+                    { name: 'Bloke Edilen Fraud (₺)', data: [12000, 25000, 18000, 48000, 32000, 89000] }
+                ],
+                chart: { type: 'area', height: 260, background: 'transparent', toolbar: { show: false } },
+                colors: ['#10b981', '#ef4444'],
+                dataLabels: { enabled: false },
+                stroke: { curve: 'smooth', width: 2 },
+                xaxis: { categories: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz'] },
+                grid: { borderColor: '#e2e8f0' }
+            };
+            new ApexCharts(document.querySelector("#chart-trend"), trendOptions).render();
+
+            const radarOptions = {
+                series: [{ name: 'Anomali Yoğunluğu', data: [85, 30, 15, 20, 45, 90] }],
+                chart: { height: 260, type: 'radar', background: 'transparent', toolbar: { show: false } },
+                colors: ['#0284c7'],
+                xaxis: { categories: ['00:00-04:00', '04:00-08:00', '08:00-12:00', '12:00-16:00', '16:00-20:00', '20:00-00:00'] }
+            };
+            new ApexCharts(document.querySelector("#chart-radar"), radarOptions).render();
         }
     </script>
 </body>
