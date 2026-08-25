@@ -1,57 +1,71 @@
-# 🛡️ RiskOptima Analytics
+# 🛡️ RiskOptima Labs // Enterprise InsurTech Analytics Suite
+> **Geleceğin Riskini Bugünün Verisiyle Yönetin**  
+> *Real-Time Automated Fraud Scoring & Actuarial Claims Intelligence Infrastructure*
 
-> **InsurTech Lab // Real-Time Automated Fraud Scoring & Claims Management Infrastructure**
-> 
-> Sigortacılık sektöründeki hasar (claims) süreçlerini optimize etmek ve mali suistimal (fraud) risklerini minimize etmek amacıyla geliştirilmiş veri odaklı, minimalist bir analitik dashboard simülatörüdür.
-
----
-
-## ✨ Öne Çıkan Özellikler
-
-*   **📊 Canlı Finansal Sayaçlar (KPI Metrics):** Toplam işlenen dosya hacmini, engellenen suistimal tutarını (şirketin kurtardığı nakit akışı 💰) ve onaylanan jet ödemeleri anlık olarak hesaplar.
-*   **📉 Dinamik CSS Portföy Grafiği:** Kütüphane yükü olmadan, saf CSS ve JS mimarisiyle portföydeki risk dağılımını (Güvenli / İnceleme / Şüpheli) canlı olarak görselleştirir.
-*   **⚡ Akıllı Risk Motoru (Risk Engine Core v2.4):** Girilen hasar parametrelerini aktüeryal katsayılarla süzerek saniyeler içinde `%0 - %100` arası bir sahtecilik indeksi üretir.
-*   **🔍 Detaylı Risk Gerekçe Logları:** Şüpheli dosyaların altına sistemin *neden* kırmızı bayrak (Red Flag) kaldırdığını gerekçeleriyle listeler.
+<p align="left">
+  <a href="https://risk-optima.vercel.app/"><img src="https://img.shields.io/badge/Canlı%20Demo-Vercel-0284c7?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel Canlı Demo"></a>
+  <img src="https://img.shields.io/badge/Ecosystem-bGroup-0f172a?style=for-the-badge" alt="bGroup">
+  <img src="https://img.shields.io/badge/Stack-Vanilla%20JS%20%7C%20Tailwind%20%7C%20ApexCharts-38bdf8?style=for-the-badge" alt="Tech Stack">
+  <img src="https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge" alt="License">
+</p>
 
 ---
 
-## ⚙️ Risk Skorlama Algoritması & İş Mantığı (Business Logic)
+## 📌 Proje Özeti
 
-RiskOptima, SEGEM ve teknik sigortacılık dinamiklerini arkasına alarak her hasar ihbarını 4 kritik dikeyde matematiksel teste tabi tutar:
+**RiskOptima Labs**, sigortacılık ve reasürans operasyonlarındaki hasar (claims) süreçlerini optimize etmek, suistimal (fraud) kaynaklı maliyet kaçaklarını önlemek ve aktüeryal rezerv tahminlerini anlık verilerle desteklemek amacıyla geliştirilmiş yeni nesil bir **InsurTech Analitik Dashboard** platformudur.
 
-| Risk Faktörü (Kriter) | Operasyonel Durum | Risk Puanı Katsayısı | Sektörel Mantık |
+Harici sunucu bağımlılığı olmadan, istemci tarafında yüksek performansla çalışan aktüeryal skorlama algoritmaları, canlı veri simülasyon motoru ve sayfalama destekli portföy kuyruğu ile acente ve sigorta şirketleri için karar destek altyapısı sunar.
+
+---
+
+## ✨ Temel Yetenekler & Modüller
+
+* 📊 **Anlık Finansal Metrikler & KPI Bandı:** Toplam işlenen dosya hacmi, bloke edilen şüpheli hasar tutarı (şirketin kurtardığı nakit akışı) ve onaylanan jet ödemeleri anlık olarak hesaplar.
+* ⚡ **Gerçek Zamanlı Simülasyon Motoru (Live Data Stream):** Borsa/finans terminali mantığında, arka planda dinamik vakalar üreterek sistemi stres testine tabi tutar.
+* 📑 **Sayfalamalı Hasar Kuyruğu (Pagination):** Veri havuzunu 10'arlı sayfalara bölerek performans kaybını ve arayüz karmaşasını önler.
+* 📈 **Aktüerya & BI Metrikleri:** Aylık hasar trendleri, saatlik hasar yoğunluk anomalileri ve moral risk dağılımını interaktif **ApexCharts** grafikleri ile görselleştirir.
+* 🔍 **Detaylı Dosya İnceleme & Anomali Logları:** Her dosyanın aktüeryal karnesini ve sistemin kaldırdığı kırmızı bayrakları (Red Flags) ayrıntılı modal üzerinde listeler.
+* 💾 **Kalıcı Tarayıcı Hafızası:** LocalStorage API ile verileri oturumlar arasında güvenle saklar.
+
+---
+
+## ⚙️ Risk Skorlama & İş Mantığı (Actuarial Logic)
+
+RiskOptima Engine Core, teknik sigortacılık prensipleri doğrultusunda her hasar ihbarını 4 ana risk dikeyinde matematiksel filtrelemeye tabi tutar:
+
+| Risk Faktörü (Kriter) | Operasyonel Durum | Risk Puanı Katsayısı | Sektörel Mantık & Gerekçe |
 | :--- | :--- | :--- | :--- |
-| **Poliçe Yaşı (Kritik Dönem)** | < 30 Gün <br> 31 - 90 Gün | **+35 Puan** <br> **+15 Puan** | Poliçe tanziminden hemen sonra gelen hasarlar yüksek moral risk barındırır. |
-| **Hasar Saati (Gece Kuşağı)** | 00:00 - 05:00 | **+20 Puan** | Gece yarısı kazalarında alkol raporu veya sürücü değiştirme şüphesi artar. |
-| **Geçmiş Hasar Frekansı** | > 2 Hasar <br> 0 Hasar (Temiz) | **+25 Puan** <br> **-10 Puan (Bonus)** | Hasarsızlık geçmişi müşterinin sadakatini ve moralitesini doğrular. |
-| **Hasar / Prim Oranı** | > 50.000 ₺ | **+20 Puan** | Şirket mali risk eşiğini aşan hasarlar doğrudan sıkı takibe alınır. |
+| **Poliçe Yaşı (Kritik Dönem)** | `< 30 Gün`<br>`31 - 90 Gün` | `+35 Puan`<br>`+15 Puan` | Tanzimden hemen sonra gelen hasarlar yüksek moral risk (kasıtlı beyan) barındırır. |
+| **Hasar Saati (Gece Kuşağı)** | `00:00 - 05:00` | `+20 Puan` | Gece yarısı kazalarında sürücü değişikliği ve alkol raporu şüphesi artar. |
+| **Geçmiş Hasar Frekansı** | `> 2 Hasar`<br>`0 Hasar (Temiz)` | `+25 Puan`<br>`-10 Puan (Bonus)` | Hasarsızlık geçmişi sigortalının sadakat ve risk profilini doğrular. |
+| **Mali Kritik Eşik** | `> 50.000 ₺` | `+20 Puan` | Şirket mali risk toleransını aşan hasarlar doğrudan sıkı incelemeye alınır. |
 
-### 🎯 Karar Mekanizması:
-*   **%70 ve Üzeri:** 🚨 `Şüpheli - Eksper Atandı` (Mali blokaj uygulanır).
-*   **%35 - %69 Arası:** ⚠️ `İncelemede / Belge Bekleniyor`.
-*   **%35 Altı:** ❇️ `Jet Onay - Ödeme Sırasında` (Otomatik mutabakat).
-
----
-
-## 🛠️ Tech Stack
-
-Projenin en büyük gücü **hafifliği, şeffaflığı ve taşınabilirliğidir**. Hiçbir ağır framework veya `node_modules` bağımlılığı olmadan, saf performans odaklı inşa edilmiştir:
-
-*   **UI/UX:** Semantic HTML5 & Minimalist "Old Money" CSS Design
-*   **Engine:** Vanilla JavaScript (ES6+) Core Logic
-*   **Deployment:** GitHub Pages / Vercel (Zero-Config)
+### 🎯 Karar Mekanizması Eşikleri
+* **%70 ve Üzeri:** 🚨 `Şüpheli - Eksper Atandı` (Mali blokaj uygulanır).
+* **%35 - %69 Arası:** ⚠️ `İncelemede / Belge Bekleniyor` (Ek evrak talep edilir).
+* **%35 Altı:** ❇️ `Jet Onay - Ödeme Sırasında` (Otomatik mutabakat & anında ödeme).
 
 ---
 
-## 💻 Kurulum ve Çalıştırma
+## 🛠️ Teknoloji Mimarisi
 
-Proje tek bir bağımsız dosyadan oluştuğu için bilgisayarınızda çalıştırmak sadece 2 saniyenizi alır:
+* **Arayüz / Tasarım:** Semantic HTML5, Tailwind CSS (Slate / Light FinTech Design System)
+* **Grafik & Görselleştirme:** ApexCharts.js, Lucide Icons
+* **Çekirdek Motor:** Vanilla ES6+ JavaScript (Zero Backend Dependency)
+* **Veri Yönetimi:** Browser LocalStorage API
+* **Dağıtım / CI-CD:** Vercel Edge Network
+
+---
+
+## 🚀 Yerel Kurulum ve Çalıştırma
 
 ```bash
-# Projeyi klonlayın
+# Repoyu klonlayın
 git clone [https://github.com/batuhanbayatli/RiskOptima.git](https://github.com/batuhanbayatli/RiskOptima.git)
 
-# Proje klasörüne girin
+# Proje dizinine geçin
 cd RiskOptima
 
-# index.html dosyasına çift tıklayarak tarayıcıda anında çalıştırın!
+# index.html dosyasını herhangi bir tarayıcıda açın veya canlı demoyu ziyaret edin:
+# [https://risk-optima.vercel.app/](https://risk-optima.vercel.app/)
